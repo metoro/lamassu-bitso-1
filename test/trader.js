@@ -63,13 +63,13 @@ if(pluginConfig.SUPPORTED_MODULES.indexOf('trader') !== -1 && !process.env.TRAVI
 
       var balance = null;
       var minimalAmount = NaN;
-      var lastUsdPrice = NaN;
+      var lastMxnPrice = NaN;
 
 
       // NOTE: this is Bitstamp-specific
       before(function(done) {
-        traderPlugin.ticker('USD', function(err, results) {
-          lastUsdPrice = results.USD.rates.ask;
+        traderPlugin.ticker('MXN', function(err, results) {
+          lastMxnPrice = results.MXN.rates.ask;
 
           done(err);
         });
@@ -85,8 +85,8 @@ if(pluginConfig.SUPPORTED_MODULES.indexOf('trader') !== -1 && !process.env.TRAVI
       it('should return valid balance', function(done) {
         traderPlugin.balance(function(err, localBalance) {
           should.not.exist(err);
-          localBalance.USD.should.be.a('number');
-          isNaN(localBalance.USD).should.not.equal(true);
+          localBalance.MXN.should.be.a('number');
+          isNaN(localBalance.MXN).should.not.equal(true);
 
           localBalance.BTC.should.be.a('number');
           isNaN(localBalance.BTC).should.not.equal(true);
@@ -100,7 +100,7 @@ if(pluginConfig.SUPPORTED_MODULES.indexOf('trader') !== -1 && !process.env.TRAVI
       describe('Buy', function() {
         // NOTE: [amount === 0] and [amount < $5] produce different errors
         it('should fail when amount is zero', function(done) {
-          traderPlugin.purchase(0, {price:lastUsdPrice}, function(err) {
+          traderPlugin.purchase(0, {price:lastMxnPrice}, function(err) {
             should.exist(err);
 
             err.message.should.have.string('amount');
@@ -113,10 +113,10 @@ if(pluginConfig.SUPPORTED_MODULES.indexOf('trader') !== -1 && !process.env.TRAVI
 
           // NOTE: minimum allowed order is $5;
           //       used '5.01' to accomodate possible price change
-          minimalAmount = (5.01 * 1e8) / lastUsdPrice;
+          minimalAmount = (5.01 * 1e8) / lastMxnPrice;
           var tooSmallAmount = minimalAmount / 2;
 
-          traderPlugin.purchase(tooSmallAmount, {price:lastUsdPrice}, function(err) {
+          traderPlugin.purchase(tooSmallAmount, {price:lastMxnPrice}, function(err) {
             should.exist(err);
 
             err.message.should.have.string('$5');
@@ -127,7 +127,7 @@ if(pluginConfig.SUPPORTED_MODULES.indexOf('trader') !== -1 && !process.env.TRAVI
 
         it('should fail when provided price is too high', function(done) {
 
-          var tooHighPrice = lastUsdPrice * 1.2;
+          var tooHighPrice = lastMxnPrice * 1.2;
 
           traderPlugin.purchase(minimalAmount, {price:tooHighPrice}, function(err) {
             should.exist(err);
@@ -139,12 +139,12 @@ if(pluginConfig.SUPPORTED_MODULES.indexOf('trader') !== -1 && !process.env.TRAVI
         });
 
         it('should have at least $5 on account', function() {
-          balance.USD.should.be.above(5);
+          balance.MXN.should.be.above(5);
 
         });
 
         it('should successfully place order', function(done) {
-          traderPlugin.purchase(minimalAmount, {price:lastUsdPrice}, function(err) {
+          traderPlugin.purchase(minimalAmount, {price:lastMxnPrice}, function(err) {
             should.not.exist(err);
 
             done();
@@ -155,7 +155,7 @@ if(pluginConfig.SUPPORTED_MODULES.indexOf('trader') !== -1 && !process.env.TRAVI
       describe('Sell', function() {
         // NOTE: [amount === 0] and [amount < $5] produce different errors
         it('should fail when amount is zero', function(done) {
-          traderPlugin.sell(0, {price:lastUsdPrice}, function(err) {
+          traderPlugin.sell(0, {price:lastMxnPrice}, function(err) {
             should.exist(err);
 
             err.message.should.have.string('amount');
@@ -168,10 +168,10 @@ if(pluginConfig.SUPPORTED_MODULES.indexOf('trader') !== -1 && !process.env.TRAVI
 
           // NOTE: minimum allowed order is $5;
           //       used '5.01' to accomodate possible price change
-          minimalAmount = (5.01 * 1e8) / lastUsdPrice;
+          minimalAmount = (5.01 * 1e8) / lastMxnPrice;
           var tooSmallAmount = minimalAmount / 2;
 
-          traderPlugin.sell(tooSmallAmount, {price:lastUsdPrice}, function(err) {
+          traderPlugin.sell(tooSmallAmount, {price:lastMxnPrice}, function(err) {
             should.exist(err);
 
             err.message.should.have.string('$5');
@@ -181,12 +181,12 @@ if(pluginConfig.SUPPORTED_MODULES.indexOf('trader') !== -1 && !process.env.TRAVI
         });
 
         it('should have at least $5 *in BTC* on account', function() {
-          (balance.BTC/1e8).should.be.above(5/lastUsdPrice);
+          (balance.BTC/1e8).should.be.above(5/lastMxnPrice);
 
         });
 
         it('should successfully place order', function(done) {
-          traderPlugin.sell(minimalAmount, {price:lastUsdPrice}, function(err) {
+          traderPlugin.sell(minimalAmount, {price:lastMxnPrice}, function(err) {
             should.not.exist(err);
 
             done();
