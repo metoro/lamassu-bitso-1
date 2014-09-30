@@ -1,24 +1,24 @@
 {
-  "name": "lamassu-bitstamp",
-  "version": "1.0.1",
-  "description": "Lamassu Bitstamp ticker and trader",
+  "name": "lamassu-bitso",
+  "version": "0.1.0",
+  "description": "Lamassu Bitso ticker and trader",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lamassu/lamassu-bitstamp.git"
+    "url": "https://github.com/naconner/lamassu-bitso.git"
   },
   "keywords": [
     "Lamassu",
-    "Bitstamp",
+    "Bitso",
     "Bitcoin"
   ],
   "author": "Lamassu (https://lamassu.is)",
   "license": "unlicense",
   "bugs": {
-    "url": "https://github.com/lamassu/lamassu-bitstamp/issues"
+    "url": "https://github.com/naconner/lamassu-bitso/issues"
   },
   "devDependencies": {
     "chai": "^1.9.1",
