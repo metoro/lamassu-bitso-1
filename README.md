@@ -1,14 +1,12 @@
-lamassu-bitstamp
+lamassu-bitso
 ================
 
-[![Build Status](https://travis-ci.org/lamassu/lamassu-bitstamp.svg)](https://travis-ci.org/lamassu/lamassu-bitstamp)
-
-Lamassu Bitstamp ticker and trader
+Lamassu Bitso ticker and trader
 
 
 ### Testing
 
-1. Open [`mockConfig.template.json`](https://github.com/lamassu/lamassu-bitstamp/blob/master/test/mockConfig.template.json) file, and input your Bitstamp [credentials](https://www.bitstamp.net/account/security/api/) there,
+1. Open [`mockConfig.template.json`](https://github.com/naconner/lamassu-bitso/blob/master/test/mockConfig.template.json) file, and input your Bitso credentials there,
 2. Make sure to check there:
   - [x] Account balance,
   - [x] Buy limit order,
@@ -20,5 +18,3 @@ Lamassu Bitstamp ticker and trader
 npm update # in case you cloned via git
 npm test
 ```
-
-> NOTE: Two last tests depend on your account having $5 of available balance (both in USD and BTC).
